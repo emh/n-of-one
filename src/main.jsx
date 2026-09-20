@@ -1,3 +1,4 @@
+import logomark from './assets/logomark.svg';
 import { manualState, replaceParsedEvents } from '../shared/event-origin.js';
 import { render } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
@@ -548,14 +549,15 @@ function App() {
           <>
             <header class="nav-bar">
               <a
-                class="brand-word"
+                class="brand-mark"
+                aria-label="n of one — Journal"
                 href="#journal"
                 onClick={(e) => {
                   e.preventDefault();
                   navigate('journal', { direction: 'tab' });
                 }}
               >
-                n <i>of</i> one
+                <img src={logomark} width="46" height="46" alt="" aria-hidden="true" />
               </a>
               <div class="nav-tools">
                 <span
