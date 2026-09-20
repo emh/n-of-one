@@ -1,0 +1,5 @@
+dist
+node_modules
+.wrangler
+docs/prd.md
+package-lock.json
