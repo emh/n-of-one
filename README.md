@@ -26,7 +26,7 @@ Open http://127.0.0.1:5178. Vite proxies `/api` to the Worker at port 8787. The 
 ## Using the app
 
 - Journal accepts multiline entries with optional `HHMM` or `HH:MM` timestamps. Choose the journal date for retrospective entries.
-- Review cards show the proposed events alongside the source. Edit or remove cards, add a manual event, or edit the source and reparse. Only **Accept & save** updates summaries.
+- Review cards show the proposed events alongside the source. Edit or remove cards, add a manual event, or edit the source and reparse. Only **Save** updates summaries.
 - Drafts save as you type. Offline parsing requests wait for reconnection. Parsing requires the Worker and an internet connection; capturing, reviewing, accepting, and dashboards work locally.
 - Open an accepted entry to edit it. Saving replaces its canonical events and preserves the previous entry in revision history.
 - Food and exercise corrections can explicitly **Remember this for next time**. Set the phrase that should trigger the preset. Memory is committed when the entry is accepted and can be deleted in Settings.
@@ -51,7 +51,7 @@ The repository includes GitHub Actions for Pages and the Worker. No remote deplo
    npx wrangler secret put OPENAI_API_KEY --config workers/api/wrangler.toml
    ```
 3. Enable GitHub Pages with **GitHub Actions** as the source. Set repository variable `VITE_WORKER_URL` to the deployed Worker URL. `BASE_PATH` is optional; relative assets and hash navigation support a project subpath.
-4. For Worker CI, set repository secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`.
+4. For Worker CI, set repository secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`, then set repository variable `CLOUDFLARE_CI_ENABLED=true`. Otherwise deploy the Worker locally with `npm run deploy:worker`.
 
 The parsing endpoint follows Commonplace's account-free model. CORS restricts browser origins; it does not authenticate API callers. The frontend contains no LLM API key. Service worker caches cover only the app shell and bundled fonts, not API requests. A new app version prompts before activation so it doesn't unexpectedly interrupt an entry.
 
@@ -66,3 +66,9 @@ node tests/worker-integration.mjs
 Domain tests cover acceptance/revisions, offline record merging, deletion conflicts, time handling, uncertainty, missing observations, memory lookup, and parser failure handling. The Worker integration test sends only fictional software-marker records to localhost.
 
 Architecture and scope are recorded in [docs/architecture.md](docs/architecture.md). Product requirements and the aesthetic reference are in `docs/prd.md` and `docs/mock.png`.
+
+## Test deployment
+
+- Frontend: https://emh.io/n-of-one/
+- API: https://n-of-one-api.emh.workers.dev
+- Frontend deploys automatically from `main`. Worker deployment currently uses local Wrangler authentication.
