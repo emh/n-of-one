@@ -70,21 +70,25 @@ export function DaySummary({ events, date, compact = false }) {
       </div>
       <div class="summary-grid">
         <Metric
+          icon="energy"
           label="Energy"
           value={s.caloriesLow == null ? null : rangeLabel(s.caloriesLow, s.caloriesHigh)}
           unit="kcal"
         />
         <Metric
+          icon="exercise"
           label="Movement"
           value={s.events.some((e) => e.type === 'exercise') ? s.exercise : null}
           unit="min"
         />
         <Metric
+          icon="hydration"
           label="Water"
           value={s.water == null ? null : Number((s.water / 1000).toFixed(2))}
           unit="L"
         />
         <Metric
+          icon="sleep"
           label="Sleep"
           value={durationLabel(s.sleep)}
           detail={s.wakeState ? `Woke ${s.wakeState}` : undefined}

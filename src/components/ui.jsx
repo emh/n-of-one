@@ -1,3 +1,4 @@
+import branch from '../assets/branch.svg';
 import { useLayoutEffect, useRef } from 'preact/hooks';
 import {
   BookOpen,
@@ -70,7 +71,54 @@ export const icons = {
   menu: Menu,
   done: CheckCheck,
 };
+const organicIcons = {
+  food: () => (
+    <>
+      <path fill="currentColor" d="M3 11h18c-.8 6.1-3.8 10-9 10S3.8 17.1 3 11Z" />
+      <path
+        fill="currentColor"
+        opacity=".7"
+        d="M11 9C6 10 5 6 5 3c4 0 7 2 6 6Zm2 0c-1-5 3-7 7-7 0 4-3 7-7 7Z"
+      />
+    </>
+  ),
+  sleep: () => <path fill="currentColor" d="M19.8 16.7A8.7 8.7 0 0 1 8 4.2a9 9 0 1 0 11.8 12.5Z" />,
+  fasting: () => (
+    <>
+      <path
+        fill="currentColor"
+        d="M4 19C1 7 12 4 22 2c0 12-6 20-16 19 3-6 7-11 11-14-6 3-10 7-13 12Z"
+      />
+      <path
+        d="M3 23c2-6 7-12 13-16"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinecap="round"
+      />
+    </>
+  ),
+  exercise: () => (
+    <>
+      <circle cx="15" cy="4" r="2.1" fill="currentColor" />
+      <path
+        d="m8 20 3-6 3 2 2 5M4 12l4-5 4 1 3 4 5 1M12 8l-2 6-5 2"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </>
+  ),
+};
 export function Icon({ name, size = 18, ...props }) {
+  const Illustration = organicIcons[name];
+  if (Illustration)
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true" {...props}>
+        <Illustration />
+      </svg>
+    );
   const Component = icons[name] || MessageSquare;
   return <Component size={size} strokeWidth={1.6} aria-hidden="true" {...props} />;
 }
@@ -85,7 +133,13 @@ export function Empty({ icon = 'journal', title, children, compact = false }) {
   return (
     <div class={`empty ${compact ? 'compact' : ''}`}>
       <span class="empty-icon">
-        <Icon name={icon} size={25} />
+        <>
+          {icon === 'journal' && !compact ? (
+            <img class="botanical" src={branch} alt="" aria-hidden="true" />
+          ) : (
+            <Icon name={icon} size={25} />
+          )}
+        </>
       </span>
       <h3>{title}</h3>
       {children && <p>{children}</p>}

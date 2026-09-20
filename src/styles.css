@@ -2,15 +2,18 @@
 @import '@fontsource/ibm-plex-mono/400.css';
 :root {
   font-family: -apple-system, BlinkMacSystemFont, 'DM Sans Variable', sans-serif;
-  color: #e0e7e1;
-  background: #080b0a;
+  color: #302d26;
+  background: #ded7cb;
   font-synthesis: none;
-  color-scheme: dark;
-  --bg: #101613;
-  --panel: #19221c;
-  --line: #303c33;
-  --mint: #b9e3c9;
-  --muted: #91a498;
+  color-scheme: light;
+  --bg: #f3eee5;
+  --paper: url('./assets/paper.svg');
+  --panel: #faf7f1;
+  --line: #ded6c9;
+  --olive: #656b4e;
+  --clay: #89684c;
+  --serif: Georgia, 'Times New Roman', serif;
+  --muted: #706b61;
   --safe: env(safe-area-inset-bottom, 0px);
 }
 * {
@@ -63,15 +66,19 @@ h1:focus {
 }
 h1 {
   font-size: 34px;
-  letter-spacing: -1.2px;
-  font-weight: 700;
+  letter-spacing: -1px;
+  font-family: var(--serif);
+  font-weight: 400;
 }
 h2 {
-  font-size: 17px;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 20px;
 }
 h3 {
-  font-size: 17px;
-  font-weight: 600;
+  font-family: var(--serif);
+  font-size: 19px;
+  font-weight: 400;
 }
 small,
 .small {
@@ -88,7 +95,7 @@ svg {
 }
 button:focus-visible,
 a:focus-visible {
-  outline: 2px solid var(--mint);
+  outline: 2px solid var(--olive);
   outline-offset: 3px;
 }
 .muted {
@@ -98,14 +105,15 @@ a:focus-visible {
   font-family: 'IBM Plex Mono', monospace;
 }
 .danger {
-  color: #e2a59f;
+  color: #a04735;
 }
 .app-shell {
   max-width: 480px;
   margin: auto;
   min-height: var(--viewport-height, 100dvh);
   background: var(--bg);
-  box-shadow: 0 0 100px #0005;
+  box-shadow: 0 0 90px #48372218;
+  background-image: var(--paper), radial-gradient(ellipse at 100% 0, #dcd3bd22, transparent 55%);
 }
 .screen {
   padding: env(safe-area-inset-top, 0px) 20px 24px;
@@ -149,10 +157,10 @@ a:focus-visible {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--mint);
+  background: var(--olive);
 }
 .warning .status-dot {
-  background: #e4b67c;
+  background: #95621f;
 }
 .icon-button {
   width: 44px;
@@ -165,8 +173,8 @@ a:focus-visible {
   color: var(--muted);
 }
 .icon-button:hover {
-  background: #ffffff08;
-  color: var(--mint);
+  background: #83745312;
+  color: var(--olive);
 }
 .page-heading {
   display: flex;
@@ -175,8 +183,8 @@ a:focus-visible {
   margin: 16px 0 12px;
 }
 .page-heading .icon-button {
-  color: var(--mint);
-  background: var(--panel);
+  color: var(--clay);
+  background: #e8dfd1;
   border-radius: 50%;
 }
 .date-row {
@@ -224,7 +232,7 @@ a:focus-visible {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   padding: 8px 12px calc(8px + var(--safe));
-  background: #111914ed;
+  background: #f3eee5ed;
   backdrop-filter: blur(24px);
   border-top: 1px solid var(--line);
   z-index: 5;
@@ -236,12 +244,12 @@ a:focus-visible {
   justify-content: center;
   gap: 5px;
   flex-direction: column;
-  color: #7f9386;
+  color: #706b61;
   font-size: 10px;
   font-weight: 500;
 }
 .mobile-nav a.active {
-  color: var(--mint);
+  color: var(--clay);
 }
 .section-title {
   display: flex;
@@ -257,7 +265,7 @@ a:focus-visible {
 .grouped-list {
   background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: 18px;
+  border-radius: 16px;
   overflow: hidden;
 }
 .draft-row {
@@ -282,7 +290,7 @@ a:focus-visible {
   padding-right: 0;
 }
 .list-icon {
-  color: var(--mint);
+  color: var(--olive);
 }
 .row-copy {
   flex: 1;
@@ -292,8 +300,9 @@ a:focus-visible {
   gap: 7px;
 }
 .row-copy strong {
-  font-size: 16px;
-  font-weight: 500;
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 400;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -334,7 +343,7 @@ a:focus-visible {
   height: 64px;
   background: var(--panel);
   border-radius: 22px;
-  color: var(--mint);
+  color: var(--olive);
 }
 .empty h3 {
   font-size: 16px;
@@ -348,18 +357,20 @@ a:focus-visible {
 }
 .button {
   min-height: 50px;
-  border-radius: 14px;
+  border-radius: 28px;
+  font-family: var(--serif);
   padding: 12px 20px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 9px;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 400;
 }
 .primary {
-  background: var(--mint);
-  color: #182a20;
+  background: var(--clay);
+  box-shadow: inset 0 1px 0 #ffffff20;
+  color: #fffaf3;
 }
 .secondary {
   background: var(--panel);
@@ -374,7 +385,7 @@ a:focus-visible {
   justify-content: center;
   min-height: 44px;
   gap: 6px;
-  color: var(--mint);
+  color: var(--olive);
   font-size: 15px;
   padding: 0 4px;
 }
@@ -382,7 +393,7 @@ a:focus-visible {
   color: var(--muted);
 }
 .text-button.danger {
-  color: #e2a59f;
+  color: #a04735;
 }
 .task-nav {
   position: sticky;
@@ -398,9 +409,9 @@ a:focus-visible {
   margin-left: -8px;
 }
 .task-nav h1 {
-  font-size: 17px;
+  font-size: 21px;
   letter-spacing: 0;
-  font-weight: 600;
+  font-weight: 400;
 }
 .nav-spacer {
   min-width: 60px;
@@ -428,20 +439,20 @@ a:focus-visible {
 }
 .journal-input {
   resize: none;
-  border: 0 !important;
-  background: transparent !important;
-  border-radius: 0 !important;
-  outline: none !important;
-  padding: 8px 0 !important;
-  line-height: 1.8 !important;
-  font-size: 19px !important;
+  border: 1px solid var(--line);
+  background: #faf7f16b;
+  border-radius: 16px;
+  padding: 20px;
+  line-height: 1.8;
+  font-size: 19px;
+  font-family: var(--serif);
   flex: 1;
   min-height: 280px;
   width: 100%;
   color: inherit;
 }
 .journal-input::placeholder {
-  color: #687e70;
+  color: var(--muted);
 }
 .capture-bottom {
   display: flex;
@@ -474,7 +485,8 @@ a:focus-visible {
   color: var(--muted);
 }
 .review-source pre {
-  font-size: 17px;
+  font-family: var(--serif);
+  font-size: 19px;
   line-height: 1.7;
 }
 .review-cards {
@@ -491,15 +503,22 @@ a:focus-visible {
   background: var(--panel);
 }
 .event-icon {
-  color: var(--mint);
-  padding-top: 4px;
+  color: var(--olive);
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #e4e5d5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .event-content {
   flex: 1;
   min-width: 0;
 }
 .event-content h3 {
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.4;
   margin: 6px 0;
 }
@@ -525,12 +544,12 @@ a:focus-visible {
 }
 .needs-details {
   font-size: 12px;
-  color: #e4b67c;
+  color: #95621f;
   margin-top: 6px;
 }
 .remembered-label {
   font-size: 11px;
-  color: var(--mint);
+  color: var(--olive);
   margin-top: 6px;
 }
 .add-event {
@@ -550,8 +569,9 @@ a:focus-visible {
 }
 .panel {
   background: var(--panel);
+  box-shadow: 0 2px 8px #65533203;
   border: 1px solid var(--line);
-  border-radius: 20px;
+  border-radius: 16px;
   padding: 20px;
   margin-bottom: 16px;
 }
@@ -562,9 +582,10 @@ a:focus-visible {
   padding: 16px 0 28px;
 }
 .summary-protein > div {
+  font-family: var(--serif);
   font-size: 60px;
   letter-spacing: -3px;
-  color: var(--mint);
+  color: var(--olive);
   margin-top: 10px;
   font-variant-numeric: tabular-nums;
 }
@@ -589,6 +610,7 @@ a:focus-visible {
   color: var(--muted);
 }
 .metric-value {
+  font-family: var(--serif);
   font-size: 27px;
   letter-spacing: -0.8px;
   line-height: 1.4;
@@ -607,7 +629,7 @@ a:focus-visible {
   margin-top: 4px;
 }
 .accent .metric-value {
-  color: var(--mint);
+  color: var(--olive);
 }
 .body-strip {
   display: flex;
@@ -641,32 +663,33 @@ a:focus-visible {
 .sleep-track {
   height: 5px;
   border-radius: 3px;
-  background: #ffffff08;
+  background: #83745312;
   overflow: hidden;
 }
 .activity-track i,
 .sleep-track i {
   display: block;
   height: 100%;
-  background: var(--mint);
+  background: var(--olive);
   border-radius: 3px;
 }
 .fast-banner {
   display: flex;
   gap: 8px;
   font-size: 13px;
-  color: var(--mint);
+  color: var(--olive);
   padding: 12px 0;
 }
 .segmented {
   display: flex;
-  background: #080e0b;
+  background: #e8e1d5;
   border: 1px solid var(--line);
   border-radius: 12px;
   padding: 3px;
   margin-bottom: 24px;
 }
 .segmented button {
+  font-family: var(--serif);
   flex: 1;
   min-height: 44px;
   font-size: 13px;
@@ -675,9 +698,9 @@ a:focus-visible {
   color: var(--muted);
 }
 .segmented button.active {
-  background: #2c3b30;
-  color: #e1ede5;
-  box-shadow: 0 1px 3px #0004;
+  background: var(--clay);
+  color: #fffaf3;
+  box-shadow: 0 1px 3px #42331c12;
 }
 .week-metrics {
   display: grid;
@@ -722,9 +745,10 @@ a:focus-visible {
   margin: 24px 0;
 }
 .body-number {
+  font-family: var(--serif);
   font-size: 48px;
   letter-spacing: -2px;
-  color: var(--mint);
+  color: var(--olive);
   margin: 24px 0;
 }
 .body-number > small {
@@ -762,16 +786,16 @@ a:focus-visible {
 .trend-average,
 .trend-measurement {
   fill: none;
-  stroke: var(--mint);
+  stroke: var(--olive);
   stroke-width: 2;
   stroke-linejoin: round;
 }
 .trend-average {
-  stroke: #7d9484;
+  stroke: #a19b85;
   stroke-dasharray: 5 5;
 }
 .trend-dot {
-  fill: var(--mint);
+  fill: var(--olive);
 }
 .chart-legend {
   display: flex;
@@ -789,7 +813,7 @@ a:focus-visible {
 .chart-legend i {
   width: 14px;
   height: 2px;
-  background: var(--mint);
+  background: var(--olive);
 }
 .week-bars {
   display: grid;
@@ -817,12 +841,12 @@ a:focus-visible {
   display: flex;
   align-items: flex-end;
   border-radius: 5px;
-  background: #ffffff04;
+  background: #e8e2d6;
   overflow: hidden;
 }
 .bar-track > div {
   width: 100%;
-  background: var(--mint);
+  background: var(--olive);
   border-radius: 5px;
   min-height: 2px;
 }
@@ -833,7 +857,7 @@ a:focus-visible {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: var(--mint);
+  background: var(--olive);
 }
 .modal {
   position: fixed;
@@ -850,7 +874,7 @@ a:focus-visible {
   overscroll-behavior: contain;
 }
 .modal::backdrop {
-  background: #080b0a;
+  background: #ded7cb;
 }
 .modal-head {
   display: flex;
@@ -866,7 +890,9 @@ a:focus-visible {
   border-bottom: 1px solid var(--line);
 }
 .modal-head h2 {
-  font-size: 17px;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 20px;
 }
 .modal-head p {
   font-size: 12px;
@@ -911,7 +937,7 @@ textarea {
 input:focus,
 select:focus,
 textarea:focus {
-  outline: 2px solid #b9e3c960;
+  outline: 2px solid #89684c55;
   outline-offset: 2px;
 }
 textarea {
@@ -945,7 +971,7 @@ textarea {
 .checkbox input {
   width: 20px;
   height: 20px;
-  accent-color: var(--mint);
+  accent-color: var(--olive);
 }
 .memory-option {
   display: grid;
@@ -957,7 +983,7 @@ textarea {
 }
 .settings-section h3 {
   margin-bottom: 20px;
-  font-size: 15px;
+  font-size: 20px;
 }
 .button-row {
   display: flex;
@@ -1016,7 +1042,7 @@ textarea {
 }
 .error-banner,
 .error-message {
-  color: #e2a59f;
+  color: #a04735;
   line-height: 1.5;
 }
 .error-banner button,
@@ -1034,16 +1060,16 @@ textarea {
   transform: translateX(-50%);
   width: calc(100% - 40px);
   max-width: 440px;
-  background: #344b3d;
-  color: #e2efe7;
-  border: 1px solid #536e5d;
+  background: #e4e7d7;
+  color: #39452f;
+  border: 1px solid #b4bea2;
   border-radius: 14px;
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 8px 12px;
   z-index: 20;
-  box-shadow: 0 8px 30px #0005;
+  box-shadow: 0 8px 30px #48372218;
   font-size: 14px;
 }
 .toast > span {
@@ -1195,7 +1221,7 @@ html[data-direction='tab']::view-transition-new(screen) {
   align-items: center;
   margin-top: 8px;
   font-size: 11px;
-  color: var(--mint);
+  color: var(--olive);
 }
 
 .review-screen {
@@ -1213,7 +1239,7 @@ html[data-direction='tab']::view-transition-new(screen) {
 }
 .chart-legend .legend-average {
   background: none;
-  border-top: 2px dashed #7d9484;
+  border-top: 2px dashed #a19b85;
 }
 .summary-protein > div {
   font-size: clamp(36px, 12vw, 56px);
@@ -1248,7 +1274,7 @@ html[data-direction='tab']::view-transition-new(screen) {
   display: none;
 }
 .expandable-event summary:focus-visible {
-  outline: 2px solid var(--mint);
+  outline: 2px solid var(--olive);
   outline-offset: -3px;
   border-radius: 16px;
 }
@@ -1301,7 +1327,7 @@ html[data-direction='tab']::view-transition-new(screen) {
   content: ' · ';
 }
 .manual-badge {
-  color: var(--mint);
+  color: var(--olive);
   border: 1px solid var(--line);
   border-radius: 5px;
   padding: 1px 5px;
@@ -1309,4 +1335,116 @@ html[data-direction='tab']::view-transition-new(screen) {
 }
 .event-eyebrow {
   flex-wrap: wrap;
+}
+
+.summary-grid .metric {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px 12px;
+  background: #f3eee56b;
+}
+.summary-grid {
+  gap: 10px;
+}
+.summary-grid .metric-value {
+  font-size: 25px;
+  letter-spacing: -0.5px;
+}
+.summary-protein {
+  background: url('./assets/branch.svg') no-repeat right center / 90px auto;
+}
+.summary-protein > div {
+  position: relative;
+}
+.empty-icon {
+  background: transparent;
+  width: 96px;
+  height: 120px;
+  border-radius: 0;
+}
+.botanical {
+  width: 96px;
+  height: 120px;
+}
+.empty.compact .empty-icon {
+  width: 48px;
+  height: 48px;
+  background: #e4e5d5;
+  border-radius: 50%;
+}
+.empty h3 {
+  font-size: 19px;
+  color: var(--muted);
+}
+.event-icon.sleep {
+  background: #e4e0d8;
+  color: #737267;
+}
+.event-icon.food,
+.event-icon.exercise,
+.event-icon.fasting {
+  background: #e3e5d3;
+}
+.event-icon.hydration {
+  background: #dfe6e2;
+  color: #62766c;
+}
+.event-icon.subjective,
+.event-icon.other,
+.event-icon.body_composition {
+  background: #eadfce;
+  color: var(--clay);
+}
+.manual-badge {
+  background: #e9ebdf;
+  border-color: #d2d6c1;
+}
+.list-icon {
+  width: 32px;
+  height: 32px;
+  background: #e9dfd1;
+  color: var(--clay);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.body-strip {
+  flex-wrap: wrap;
+}
+input::placeholder,
+textarea::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+
+.modal,
+.task-nav,
+.modal-head,
+.capture-bottom,
+.review-bottom,
+.modal-actions {
+  background-image: var(--paper);
+}
+.summary-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.metric {
+  min-width: 0;
+}
+.summary-grid > .metric:first-child .metric-value {
+  font-size: clamp(16px, 4.8vw, 20px);
+}
+.summary-protein {
+  background-size: 60px auto;
+}
+@media (max-width: 350px) {
+  .summary-grid > .metric:first-child,
+  .summary-grid > .metric:last-child {
+    grid-column: 1 / -1;
+  }
+  .summary-grid > .metric:first-child .metric-value {
+    font-size: 24px;
+  }
 }

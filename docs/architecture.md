@@ -10,7 +10,7 @@
 - Durable Object for sync, adapting Commonplace's device-link pattern. No D1 needed.
 - Commonplace's configured LLM setup: OpenAI Chat Completions, `gpt-5.4-nano`.
 - Corrections apply only to the entry unless the user explicitly chooses “remember this”.
-- The mock is an aesthetic reference: charcoal surfaces, thin borders, quiet charts, restrained mint accents. Numerical summaries replace rings; exercise remains minutes by modality.
+- The current visual reference is `docs/japandi.png`: warm paper surfaces, dark serif headings, fine borders, olive graphics, and clay controls. Numerical summaries replace rings; exercise remains minutes by modality.
 
 ## Data flow
 
@@ -46,3 +46,5 @@ The app uses a single phone-width layout, including on desktop. Journal, Summary
 Navigation uses browser history, restores scroll on return, and animates with the View Transition API when available. Reduced Motion disables animation. Native date, time, and select controls remain in place. Controls have 44px minimum targets, text inputs are at least 16px, and the layout accommodates device safe areas and dynamic viewport height. Drafts remain local and survive leaving the writing screen; accepting a review is still the only operation that updates journal totals.
 
 Opening an accepted entry shows a read-only source and event list. Edit creates an in-memory working copy; only the entry-level Save commits it. Cancel, leaving the edit flow, or reloading discards unsaved changes. Existing-entry edits never enter draft storage or the offline parse queue. Legacy edit drafts are excluded from draft reads and backups. New entries retain their existing local draft and offline queue behavior.
+
+The Japandi visual system uses ivory (#f3eee5), dark ink (#302d26), olive (#656b4e), and clay (#89684c). Serif headings and journal text pair with system sans-serif form controls and supporting labels. Botanical illustrations, category icons, and paper grain are lightweight local SVGs; no external image or font requests are required. Home-screen icons and browser theme colors follow the same palette.
