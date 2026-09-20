@@ -69,6 +69,6 @@ Architecture and scope are recorded in [docs/architecture.md](docs/architecture.
 
 ## Test deployment
 
-- Frontend: https://emh.io/n-of-one/
+- Frontend: https://emh.io/n1/
 - API: https://n-of-one-api.emh.workers.dev
 - Frontend deploys automatically from `main`. Worker deployment currently uses local Wrangler authentication.
