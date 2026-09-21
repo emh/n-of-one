@@ -1,3 +1,4 @@
+import { ConfirmDialog } from './components/confirm-dialog.jsx';
 import logomark from './assets/logomark.svg';
 import { manualState, replaceParsedEvents } from '../shared/event-origin.js';
 import { render } from 'preact';
@@ -65,6 +66,8 @@ function App() {
   const [selectedId, setSelectedId] = useState(location.hash.split('/')[1] || null);
   const [parsing, setParsing] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [confirmation, setConfirmation] = useState(null);
+  useEffect(() => setConfirmation(null), [view]);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [syncStatus, setSyncStatus] = useState('local');
@@ -420,7 +423,6 @@ function App() {
     navigate('review', { entryId: id });
   }
   async function removeEntry(id) {
-    if (!confirm('Delete this journal entry and its accepted events?')) return;
     const record = records.find((r) => r.id === id);
     await saveRecords([{ ...record, deleted: true }]);
     for (const item of drafts.filter((d) => d.entryId === id)) await deleteDraft(item.id);
@@ -666,15 +668,20 @@ function App() {
                             icon="delete"
                             label="Delete draft"
                             onClick={async () => {
-                              if (confirm('Discard this draft?')) {
-                                await deleteDraft(item.id);
-                                if (item.id === draft.id) {
-                                  const next = freshDraft(date);
-                                  draftRef.current = next;
-                                  setDraft(next);
-                                }
-                                await refresh();
-                              }
+                              setConfirmation({
+                                title: 'Discard draft?',
+                                message: 'This draft will be removed from this device.',
+                                confirmLabel: 'Discard',
+                                onConfirm: async () => {
+                                  await deleteDraft(item.id);
+                                  if (item.id === draft.id) {
+                                    const next = freshDraft(date);
+                                    draftRef.current = next;
+                                    setDraft(next);
+                                  }
+                                  await refresh();
+                                },
+                              });
                             }}
                           />
                         </div>
@@ -751,7 +758,14 @@ function App() {
                     {!demo && (
                       <button
                         class="text-button danger delete-entry"
-                        onClick={() => removeEntry(viewedEntry.id)}
+                        onClick={() =>
+                          setConfirmation({
+                            title: 'Delete entry?',
+                            message: 'This entry and its events will be removed from your journal.',
+                            confirmLabel: 'Delete',
+                            onConfirm: () => removeEntry(viewedEntry.id),
+                          })
+                        }
                       >
                         Delete entry
                       </button>
@@ -908,6 +922,7 @@ function App() {
           <IconButton icon="close" label="Dismiss notification" onClick={() => setNotice('')} />
         </div>
       )}
+      {confirmation && <ConfirmDialog {...confirmation} onClose={() => setConfirmation(null)} />}
       {view === 'details' && editEvent && (
         <EventEditor
           key={editEvent.event.id}

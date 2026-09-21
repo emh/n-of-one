@@ -272,6 +272,9 @@ a:focus-visible {
   display: flex;
   align-items: center;
 }
+.draft-row > .icon-button {
+  margin-inline: 4px 8px;
+}
 .draft-row:not(:last-child),
 .accepted-entry:not(:last-child) {
   border-bottom: 1px solid var(--line);
@@ -503,6 +506,7 @@ a:focus-visible {
   background: var(--panel);
 }
 .event-icon {
+  align-self: center;
   color: var(--olive);
   width: 36px;
   height: 36px;
@@ -1096,7 +1100,7 @@ textarea {
 .app-shell {
   view-transition-name: screen;
 }
-.app-shell:has(dialog[open]) {
+.app-shell:has(.modal[open]) {
   view-transition-name: none;
 }
 .modal[open] {
@@ -1446,5 +1450,72 @@ textarea::placeholder {
   }
   .summary-grid > .metric:first-child .metric-value {
     font-size: 24px;
+  }
+}
+
+.confirm-dialog {
+  width: min(360px, calc(100% - 40px));
+  max-height: calc(var(--viewport-height, 100dvh) - 48px);
+  margin: auto;
+  padding: 26px 24px 24px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--bg) var(--paper);
+  color: #302d26;
+  box-shadow: 0 20px 70px #30271930;
+  text-align: center;
+}
+.confirm-dialog::backdrop {
+  background: #30271955;
+  backdrop-filter: blur(3px);
+}
+.confirm-symbol {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background: #eadfce;
+  color: var(--clay);
+}
+.confirm-dialog h2 {
+  font-size: 25px;
+}
+.confirm-dialog p {
+  margin: 12px 0 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.confirm-dialog .error-message {
+  color: #a04735;
+}
+.confirm-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 24px;
+}
+.confirm-actions .button {
+  flex: 1;
+  min-width: 0;
+  padding-inline: 12px;
+}
+.destructive {
+  background: #9b5141;
+  color: #fffaf3;
+}
+.confirm-dialog[open] {
+  animation: confirm-in 160ms ease-out;
+}
+@keyframes confirm-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
