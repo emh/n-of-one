@@ -28,7 +28,7 @@ test('parser uses the configured Commonplace model and strict application schema
     },
   );
   assert.equal(result.events[0].data.proteinLow, 18);
-  assert.equal(result.parserVersion, 'journal-v2:gpt-5.4-nano');
+  assert.equal(result.parserVersion, 'journal-v3:gpt-5.4-nano');
 });
 test('activity categories and legacy presets are supplied to the LLM without keyword overrides', async () => {
   const result = await parseJournal(
@@ -53,6 +53,7 @@ test('activity categories and legacy presets are supplied to the LLM without key
       assert.ok(categories.includes('movement') && categories.includes('cardio'));
       assert.ok(!categories.includes('zone_1') && !categories.includes('zone_2'));
       assert.match(body.messages[0].content, /bike ride is cardio/i);
+      assert.match(body.messages[0].content, /general warmup/);
       assert.match(body.messages[0].content, /zones 2, 3, 4 or 5/);
       const context = JSON.parse(body.messages[1].content);
       assert.equal(context.memories[0].eventData.modality, 'cardio');

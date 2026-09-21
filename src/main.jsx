@@ -312,15 +312,6 @@ function App() {
       notify('Exit the sample journal to log your own entry.');
       return;
     }
-    if (!navigator.onLine && current.entryId) {
-      setError('Reconnect to re-parse. Changes have not been saved.');
-      return;
-    }
-    if (!navigator.onLine) {
-      await updateDraft({ ...current, queued: true });
-      notify('Saved offline. It will be parsed when you reconnect.');
-      return;
-    }
     setParsing(true);
     setError('');
     try {
@@ -352,6 +343,14 @@ function App() {
       if (viewRef.current === 'compose') navigate('review');
     } catch (e) {
       if (draftRef.current.id !== current.id) return;
+      if (e.code === 'offline_parse_needed') {
+        if (current.entryId) setError('Reconnect to re-parse. Changes have not been saved.');
+        else {
+          await updateDraft({ ...current, queued: true });
+          notify('Saved offline. It will be parsed when you reconnect.');
+        }
+        return;
+      }
       setError(
         e.name === 'TimeoutError'
           ? current.entryId

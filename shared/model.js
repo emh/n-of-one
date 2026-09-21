@@ -69,6 +69,7 @@ export function acceptReview(review, previous = null, now = new Date().toISOStri
       events,
       originalEvents: original,
       parserVersion: review.parserVersion,
+      parseDiagnostics: review.parseDiagnostics ?? old?.parseDiagnostics ?? null,
       corrections,
       reviewEdits: review.reviewEdits || [],
       parseAttempts: review.parseAttempts || [],

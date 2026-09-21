@@ -1,1 +1,3 @@
 OPENAI_API_KEY=your-openai-key
+# Optional: enables TypeSafe before the LLM fallback, within this same Worker.
+TYPESAFE_API_KEY=your-typesafe-key

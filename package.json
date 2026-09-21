@@ -12,6 +12,7 @@
     "check": "npm test && npm run build",
     "deploy:worker": "wrangler deploy --config workers/api/wrangler.toml",
     "test:worker": "node tests/worker-integration.mjs",
+    "test:parser:live": "node tests/parser-live.mjs",
     "format": "prettier --write src shared workers/api/src tests vite.config.js"
   },
   "dependencies": {

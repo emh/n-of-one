@@ -50,8 +50,12 @@ export function SettingsPanel({
     await onSettings(next);
     setMessage(
       result.parserReady
-        ? 'Connected. Parsing is ready.'
-        : 'Connected. The Worker still needs its LLM API key.',
+        ? result.typesafeReady
+          ? 'Connected. TypeSafe and LLM parsing are ready.'
+          : 'Connected. LLM parsing is ready.'
+        : result.typesafeReady
+          ? 'Connected. TypeSafe is ready for supported entries; add the LLM key for full coverage.'
+          : 'Connected. The Worker still needs its LLM API key.',
     );
   }
   async function link() {

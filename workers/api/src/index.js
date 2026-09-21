@@ -135,7 +135,17 @@ export default {
       if (Number(request.headers.get('Content-Length')) > 12000000)
         return json({ error: 'Request too large.' }, 413, headers);
       if (url.pathname === '/api/health')
-        return json({ ok: true, parserReady: Boolean(env.OPENAI_API_KEY) }, 200, headers);
+        return json(
+          {
+            ok: true,
+            parserReady: Boolean(env.OPENAI_API_KEY),
+            typesafeReady:
+              Boolean(env.TYPESAFE_API_KEY || env.TYPESAFE_KEY) && env.TYPESAFE_ENABLED !== 'false',
+            llmReady: Boolean(env.OPENAI_API_KEY),
+          },
+          200,
+          headers,
+        );
       if (url.pathname === '/api/parse' && request.method === 'POST')
         return json(await parseJournal(await request.json(), env), 200, headers);
       if (url.pathname === '/api/rooms' && request.method === 'POST')

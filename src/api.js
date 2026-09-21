@@ -1,5 +1,6 @@
 import { relevantMemories, validateParse } from '../shared/schema.js';
 import { uid, localTime } from '../shared/model.js';
+import { parseUsingAcceptedEntries } from '../shared/learned-parser.js';
 import { apiBase, getRecords, getMeta, mergeRemote } from './storage.js';
 export async function request(settings, path, body, timeout = 60000) {
   const base = apiBase(settings);
@@ -26,12 +27,19 @@ export async function parseJournalEntry({
   memories,
   settings,
 }) {
-  const result = await request(settings, '/api/parse', {
+  const input = {
     text,
     date,
     time: referenceTime || localTime(),
     timezone: timezone || Intl.DateTimeFormat().resolvedOptions().timeZone,
     memories: relevantMemories(text, memories).map((m) => m.data),
+  };
+  const result = await parseUsingAcceptedEntries(input, await getRecords(), memories, (pending) => {
+    if (!navigator.onLine)
+      throw Object.assign(new Error('This entry needs an online interpretation.'), {
+        code: 'offline_parse_needed',
+      });
+    return request(settings, '/api/parse', pending);
   });
   validateParse(result);
   if (!result.events.length)

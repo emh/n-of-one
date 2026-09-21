@@ -9,18 +9,30 @@
 - IndexedDB for entries/drafts; localStorage for device configuration.
 - Durable Object for sync, adapting Commonplace's device-link pattern. No D1 needed.
 - Commonplace's configured LLM setup: OpenAI Chat Completions, `gpt-5.4-nano`.
-- Corrections apply only to the entry unless the user explicitly chooses “remember this”.
+- Accepted simple exercise corrections also inform matching future duration patterns. Broader food and exercise preferences use **Remember this**.
 - The current visual reference is `docs/japandi.png`: warm paper surfaces, dark serif headings, fine borders, olive graphics, and clay controls. Numerical summaries replace rings; exercise remains minutes by modality.
 
 ## Data flow
 
-Journal text → local draft → Worker structured output → shared validation → review → accept → IndexedDB → per-record sync.
+Journal text → local draft → source segmentation → reuse accepted exercise patterns locally → existing Worker `/api/parse` for unresolved parts → TypeSafe selection and verification → LLM for remaining parts → shared validation → review → accept → IndexedDB → per-record sync.
+
+`shared/learned-parser.js` derives duration templates from current, nondeleted accepted journal records. A template requires a single explicit duration, exactly one source-matched exercise event, the same accepted quantity, and no additional structured values or inferred notes. The wording around the duration must match exactly after case/whitespace normalization. A fresh duration and the current app-owned date/time replace the old values. The latest accepted interpretation wins; ambiguous or non-exercise corrections disable reuse for that pattern. Explicit simple exercise presets take precedence, while richer or conflicting presets force fresh interpretation. No additional database or model training is involved: normal journal sync brings examples to each device, and editing/deleting source records takes effect on the next parse.
+
+Fully learned submissions make zero network requests and work offline. Mixed submissions send only unresolved source text to the Worker, with source IDs and original compound provenance restored locally on return. A failure in any unresolved part prevents a partial successful review. Learned events retain the example entry/event IDs and source text, use a distinct **Learned** badge, and do not claim model confidence. Drafts and unaccepted AI suggestions never teach this path.
+
+TypeSafe lives in `workers/api/src/typesafe.js`, within the existing parsing/sync Worker. There is no new service, Durable Object, storage table, or endpoint. Its key is a server-side secret. Without the key (or with `TYPESAFE_ENABLED=false`), all source parts use the original LLM parser. The LLM model and strict application schema remain unchanged.
+
+The first TypeSafe stage handles explicit exercise duration/modality, drinking-water volume, and body weight/fat. Code enumerates and normalizes source quantities; independent Choice questions choose their roles and categories. A second request verifies proposed events against the source and applicable user presets. Any unsupported type, uncertainty, missing candidate, lost qualifier, compound observation, malformed answer, or provider failure routes the complete affected source part to the LLM. Existing high-confidence events are not regenerated. The Worker rejects LLM responses that omit unresolved source parts or reference an already-resolved source ID.
+
+Routing uses selected-option probability (default 0.9), minimum choice confidence (0.5), and verification probability (default 0.9); these starting thresholds require evaluation on real use. At most 20 source parts enter TypeSafe per parse, within a five-second aggregate time budget. Extra parts go straight to the LLM. The LLM has a 50-second timeout within the client's existing 60-second request window. Diagnostics record provider routes, token counts, models, and elapsed time without credentials. Per-event provenance and original parser output survive review and acceptance.
+
+Semicolons outside double quotes split explicit source parts. A later part inherits the previous explicit time on that same line; a new explicit time overrides it. Dates remain app-owned, durations never imply a subsequent start time, and each compound part retains the original line and its part index. The LLM still handles compound language without explicit delimiters.
 
 All eight event types use a small common envelope with local `date` and `time`, source text, and typed fields in `data`. Local calendar dates are preserved independently of the viewer's timezone. Acceptance adds the event instant (`timestamp`), entry ID, and stable event IDs. Bed/wake events are paired across dates; lone timestamps remain unknown duration.
 
 Each accepted journal record contains raw text, the parser's original events, current accepted events, parser version, corrections, and previous accepted revisions. Editing and reaccepting writes the same record ID, replacing its current event list. Dashboards only read nondeleted accepted records.
 
-Memories are ordinary records containing a phrase, event type, and saved field values. Only matching normalized whole phrases are sent with a parse request. There is no embedding retrieval or automatic rule promotion.
+Memories are ordinary records containing a phrase, event type, and saved field values. Only matching normalized whole phrases are sent with a parse request. There is no embedding retrieval; reuse of accepted duration patterns is derived locally and separate from explicit memory records.
 
 ## Persistence and sync
 

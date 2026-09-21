@@ -8,6 +8,8 @@ port = 8787
 
 [vars]
 OPENAI_MODEL = "gpt-5.4-nano"
+TYPESAFE_MODEL = "jev-latest"
+TYPESAFE_MIN_PROBABILITY = "0.9"
 ALLOWED_ORIGINS = "http://127.0.0.1:5178,http://localhost:5178,http://127.0.0.1:4173,http://localhost:4173,https://emh.io"
 
 [[durable_objects.bindings]]
